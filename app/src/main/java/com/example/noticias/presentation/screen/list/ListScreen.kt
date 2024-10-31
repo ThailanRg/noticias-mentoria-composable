@@ -20,23 +20,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.noticias.R
 import com.example.noticias.data.local.DataBase
+import com.example.noticias.data.local.News
+import com.example.noticias.presentation.FORM_SCREEN_ROUTE
 
 @Composable
 fun ListScreen(
     modifier: Modifier = Modifier,
-    navigateTo : (String) -> Unit = {}
+    navigateTo: (String) -> Unit = {}
 ) {
-    val newsList = DataBase().readDb()
-
+    val listaDeNoticias = DataBase().readDb()
     LazyColumn(
+        modifier = modifier,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(
-            count = newsList.size,
+            count = listaDeNoticias.size,
         ) { position ->
-            val item = newsList[position]
-            NewsItem(navigateTo, position, item)
+            val item = listaDeNoticias[position]
+            NewsItem(navigateTo = { navigateTo(it) }, position, item)
         }
     }
 }
@@ -45,7 +47,7 @@ fun ListScreen(
 fun NewsItem(
     navigateTo: (String) -> Unit = {},
     position: Int,
-    news: String
+    news: News
 ) {
     Column(
         modifier = Modifier
@@ -60,11 +62,12 @@ fun NewsItem(
             )
             .padding(8.dp)
     ) {
-        Text(text = news)
+        Text(text = news.title)
         Button(
-            onClick = {navigateTo("")},
-            modifier = Modifier
-                .align(alignment = Alignment.End)
+            onClick = {
+                val newItem = FORM_SCREEN_ROUTE.replace("{id}", news.title)
+                navigateTo(newItem)
+            }, modifier = Modifier.align(alignment = Alignment.End)
         ) {
             Text(text = "Editar")
         }
@@ -74,7 +77,7 @@ fun NewsItem(
 @Composable
 @Preview
 fun NewsItemPreview() {
-    NewsItem({}, 0, "Titulo")
+    NewsItem({}, 0, News())
 }
 
 @Composable

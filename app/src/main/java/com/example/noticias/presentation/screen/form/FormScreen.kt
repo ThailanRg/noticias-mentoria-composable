@@ -13,22 +13,29 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavBackStackEntry
 import com.example.noticias.data.local.DataBase
+import com.example.noticias.data.local.News
 
 @Composable
 fun FormScreen(
-    navigateTo : (String) -> Unit = {}
+    navController: NavBackStackEntry,
+    argumento: String = "",
+    modifier: Modifier = Modifier,
+    navigateTo: (String) -> Unit = {}
 ) {
 
-    var title by rememberSaveable  { mutableStateOf("") }
+
     var description by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
+    val itemCurrent = DataBase().findItem(argumento)
+    var title by rememberSaveable { mutableStateOf(itemCurrent?.title ?: "") }
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = CenterHorizontally
     ) {
+
         Forms("Titulo", title) {
             title = it
         }
@@ -43,11 +50,33 @@ fun FormScreen(
 
         Button(
             onClick = {
-                DataBase().createDb(title)
-               navigateTo("")
+                if(itemCurrent != null) {
+                    DataBase().update(
+                        identificador = argumento,
+                        update = News(title = title)
+                    )
+                } else {
+                    DataBase().createDb(News(
+                        title = title,
+                        description = description,
+                        message = message
+                    ))
+                }
+                navigateTo("")
             }
         ) {
-            Text("cadastrar")
+            Text(text = if(itemCurrent != null) "atualizar" else "cadastrar")
+        }
+
+        if(itemCurrent != null) {
+            Button(
+                onClick = {
+                    DataBase().delete(identificador = argumento)
+                    navigateTo("")
+                }
+            ) {
+                Text(text = "excluir")
+            }
         }
     }
 }
@@ -60,17 +89,10 @@ fun Forms(
 ) {
     OutlinedTextField(
         value = email,
-        label = { Text(label) },
-        onValueChange = {
-            onEmailChange(it)
-        }
+        label = {
+            Text(text = label)
+        },
+        onValueChange = { onEmailChange(it) }
     )
 }
 
-@Composable
-@Preview
-fun FormScreenPreview(
-    navigateTo : (String) -> Unit = {}
-) {
-    FormScreen()
-}
