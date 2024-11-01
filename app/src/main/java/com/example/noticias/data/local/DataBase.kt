@@ -10,11 +10,11 @@ class DataBase {
 
     fun update(
         key: String,
-        newNews: News
+        update: News
     ) {
         _listFixe.forEach { new ->
            if (new.title == key) {
-               new.title = newNews.title
+               new.title = update.title
            }
        }
     }

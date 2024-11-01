@@ -24,11 +24,11 @@ fun FormScreen(
     modifier: Modifier = Modifier,
     navigateTo: (String) -> Unit = {}
 ) {
+    val itemCurrent = DataBase().findItem(argumento)
 
+    var title by rememberSaveable { mutableStateOf(itemCurrent?.title ?: "") }
     var description by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
-    val itemCurrent = DataBase().findItem(argumento)
-    var title by rememberSaveable { mutableStateOf(itemCurrent?.title ?: "") }
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -52,7 +52,7 @@ fun FormScreen(
                 if(itemCurrent != null) {
                     DataBase().update(
                         key = argumento,
-                        newNews = News(title = title)
+                        update = News(title = title)
                     )
                 } else {
                     DataBase().create(News(
