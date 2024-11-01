@@ -19,25 +19,24 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.noticias.R
-import com.example.noticias.data.local.DataBase
 import com.example.noticias.data.local.News
 import com.example.noticias.presentation.FORM_SCREEN_ROUTE
 
 @Composable
 fun ListScreen(
+    uiState: ListViewModel.ListUiState,
     modifier: Modifier = Modifier,
     navigateTo: (String) -> Unit = {}
 ) {
-    val listaDeNoticias = DataBase().readDb()
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(
-            count = listaDeNoticias.size,
+            count = uiState.news.size,
         ) { position ->
-            val item = listaDeNoticias[position]
+            val item = uiState.news[position]
             NewsItem(navigateTo = { navigateTo(it) }, position, item)
         }
     }
@@ -83,7 +82,7 @@ fun NewsItemPreview() {
 @Composable
 @Preview
 fun ListScreenPreview() {
-    ListScreen()
+    ListScreen(ListViewModel.ListUiState())
 }
 
 fun isPair(value: Int) = value % 2 == 0
