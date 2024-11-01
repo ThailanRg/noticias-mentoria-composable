@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.noticias.presentation.screen.form.navigateToDetails
+import com.example.noticias.presentation.screen.form.navigateToForm
 import com.example.noticias.presentation.screen.list.navigateToList
 import com.example.noticias.presentation.theme.NoticiasTheme
 
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = LIST_SCREEN_ROUTE
                 ) {
-                    navigateToDetails {
+                    navigateToForm {
                         navController.navigate(it)
                     }
                     navigateToList {

@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import com.example.noticias.presentation.FORM_SCREEN_ROUTE
 import com.example.noticias.presentation.LIST_SCREEN_ROUTE
 
-fun NavGraphBuilder.navigateToDetails(
+fun NavGraphBuilder.navigateToForm(
     navigateTo: (String) -> Unit = {}
 ) {
     composable(FORM_SCREEN_ROUTE) { backStackEntry ->
