@@ -4,25 +4,25 @@ class DataBase {
 
     fun readDb() = _listFixe
 
-    fun createDb(string: News)  = _listFixe.add(string)
+    fun create(string: News)  = _listFixe.add(string)
 
-    fun findItem(string: String)  = _listFixe.find { it.title == string }
+    fun findItem(key: String)  = _listFixe.find { it.title == key }
 
     fun update(
-        identificador: String,
-        update: News
+        key: String,
+        newNews: News
     ) {
-       _listFixe.forEach {
-           if (it.title == identificador) {
-               it.title = update.title
+        _listFixe.forEach { new ->
+           if (new.title == key) {
+               new.title = newNews.title
            }
        }
     }
 
     fun delete(
-        identificador: String,
+        key: String,
     ) {
-       val newList = _listFixe.filter {it.title != identificador}
+       val newList = _listFixe.filter {it.title != key}
         _listFixe.clear()
         _listFixe = newList.toMutableList()
     }

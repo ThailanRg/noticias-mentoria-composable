@@ -25,7 +25,6 @@ fun FormScreen(
     navigateTo: (String) -> Unit = {}
 ) {
 
-
     var description by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
     val itemCurrent = DataBase().findItem(argumento)
@@ -52,11 +51,11 @@ fun FormScreen(
             onClick = {
                 if(itemCurrent != null) {
                     DataBase().update(
-                        identificador = argumento,
-                        update = News(title = title)
+                        key = argumento,
+                        newNews = News(title = title)
                     )
                 } else {
-                    DataBase().createDb(News(
+                    DataBase().create(News(
                         title = title,
                         description = description,
                         message = message
@@ -71,7 +70,7 @@ fun FormScreen(
         if(itemCurrent != null) {
             Button(
                 onClick = {
-                    DataBase().delete(identificador = argumento)
+                    DataBase().delete(key = argumento)
                     navigateTo("")
                 }
             ) {

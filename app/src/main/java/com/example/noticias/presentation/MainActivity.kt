@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = LIST_SCREEN_ROUTE
                 ) {
+
                     composable(FORM_SCREEN_ROUTE) { backStackEntry ->
                         val args = backStackEntry.arguments?.getString("id")
                         FormScreen(
@@ -37,8 +38,6 @@ class MainActivity : ComponentActivity() {
                             navController.navigate(LIST_SCREEN_ROUTE)
                         }
                     }
-
-
                     composable(LIST_SCREEN_ROUTE) {
                         Scaffold(floatingActionButton = {
                             FloatingActionButton(onClick = {
@@ -61,9 +60,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-
-
-
                 }
             }
         }
