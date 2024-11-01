@@ -14,7 +14,7 @@ class FormViewModel : ViewModel() {
         when (event) {
             is FormIntent.TitleChange -> titleChange(event.value)
             is FormIntent.DescriptionChange -> descriptionChange(event.value)
-            is FormIntent.MensageChange -> mensagemChange(event.value)
+            is FormIntent.MensageChange -> messageChange(event.value)
         }
     }
 
@@ -30,7 +30,7 @@ class FormViewModel : ViewModel() {
         }
     }
 
-    private fun mensagemChange(value: String) {
+    private fun messageChange(value: String) {
         _uiState.update {
             it.copy(message = value)
         }
